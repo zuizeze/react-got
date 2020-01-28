@@ -4,7 +4,7 @@ export class TodoList extends Component {
   render() {
     return (
       <div>
-        hi
+     {this.props.name}
       </div>
     );
   }
