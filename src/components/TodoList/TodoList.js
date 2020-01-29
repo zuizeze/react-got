@@ -18,13 +18,15 @@ export class TodoList extends Component {
 
   render() {
     const showList = this.state.list.map(item => {
-      console.log(item)
-      return <h1 key={item.name}>{item.price}</h1>
+      return <li key={item.name}>{item.price}</li>
     })
     return (
       <div className="shopping-list">
         <h1>Shopping List for {this.props.name}</h1>
-        {showList}
+        <ul>
+          {showList}
+        </ul>
+
       </div>
 
     );
