@@ -19,5 +19,4 @@ npm install
 npm run start
 ```
 4. 查看本地效果
-
 	打开浏览器http://localhost:3000
