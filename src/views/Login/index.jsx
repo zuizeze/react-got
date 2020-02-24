@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 
-export class NotFound extends Component {
+export class Login extends Component {
   render() {
     return (
       <div>
-        404
+        登陆
       </div>
     );
   }
 }
 
-export default NotFound;
+export default Login;

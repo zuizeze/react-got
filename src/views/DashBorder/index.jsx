@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 
-export class NotFound extends Component {
+export class DashBorder extends Component {
   render() {
     return (
       <div>
-        404
+        首页
       </div>
     );
   }
 }
 
-export default NotFound;
+export default DashBorder;

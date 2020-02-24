@@ -1,13 +1,14 @@
+
 import React, { Component } from 'react';
 
-export class NotFound extends Component {
+export class Setting extends Component {
   render() {
     return (
       <div>
-        404
+        设置页
       </div>
     );
   }
 }
 
-export default NotFound;
+export default Setting;
