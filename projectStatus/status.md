@@ -31,3 +31,16 @@
   </Switch>
 </Router>
 ```
+
+
+
+2. day2
+*  使用axios[第一天](./week1.md)
+
+*  使用rap2配置后端接口和返回
+    1. rap2的一些文档[官方链接](http://rap2.taobao.org/),[mock的官方规范文档](https://github.com/nuysoft/Mock/wiki/Syntax-Specification)
+    2. 配置了getuser的接口
+    *  api的链接
+      ```
+      http://rap2.taobao.org:38080/app/mock/245540/api/v1/getuser
+      ```
