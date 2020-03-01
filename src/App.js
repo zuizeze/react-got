@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-02-23 11:24:09
- * @LastEditTime: 2020-03-01 10:52:26
+ * @LastEditTime: 2020-03-01 13:36:26
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /linqiang/react-got/src/App.js
@@ -17,7 +17,7 @@ const menus = adminRoutes.filter(route => route.isNav === true)
 export class App extends Component {
   render() {
     return (
-      <div>
+      <>
         <Frame menus={menus}>
           <Switch>
             {
@@ -36,7 +36,7 @@ export class App extends Component {
             <Redirect to='/404' />
           </Switch>
         </Frame>
-      </div>
+      </>
     );
   }
 }

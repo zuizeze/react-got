@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-03-01 10:29:04
- * @LastEditTime: 2020-03-01 11:23:23
+ * @LastEditTime: 2020-03-01 13:35:03
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /linqiang/react-got/src/components/Frame/index.js
@@ -25,8 +25,10 @@ class Frame extends Component {
     this.props.history.push(key)
   }
   render() {
+    const selectedKeyArr = this.props.location.pathname.split('/')
+    selectedKeyArr.length = 3
     return (
-      <Layout>
+      <Layout style={{ minHeight: '100%' }}>
         <Header className="header got-header">
           <div id='header-logo' className='logo' >
             <img src={logo} alt="logo" />
@@ -36,8 +38,7 @@ class Frame extends Component {
           <Sider width={200} className="site-layout-background">
             <Menu
               mode="inline"
-              defaultSelectedKeys={['1']}
-              defaultOpenKeys={['sub1']}
+              selectedKeys={[selectedKeyArr.join('/')]}
               onClick={this.onMenuClick}
               style={{ height: '100%', borderRight: 0 }}
             >
@@ -53,11 +54,11 @@ class Frame extends Component {
               }
             </Menu>
           </Sider>
-          <Layout style={{ padding: '16px' }}>
+          <Layout >
             <Content
               className="site-layout-background"
               style={{
-                padding: 24,
+                padding: 12,
                 margin: 0,
                 minHeight: 280,
               }}
