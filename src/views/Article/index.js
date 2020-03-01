@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Table, Button,Tooltip,Tag } from 'antd';
+import { Card, Table, Button, Tooltip, Tag } from 'antd';
 import moment from 'moment'
 import { getUser } from '../../api'
 const ButtonGroup = Button.Group
@@ -87,19 +87,20 @@ export default class ArticleList extends Component {
   }
   componentDidMount() {
     getUser().then(res => {
-      // const data = res.data
-      // const columnKeys = Object.keys(data.list[0])
-      // const columns = this.CreateColumn(columnKeys)
-      // this.setState({
-      //   dataSource: data.list,
-      //   totalPage: data.total,
-      //   columns
-      // })
-    },()=>{
+      const data = res.data
+      const columnKeys = Object.keys(data.list[0])
+      const columns = this.CreateColumn(columnKeys)
       this.setState({
-        Loading:false
+        dataSource: data.list,
+        totalPage: data.total,
+        columns
       })
     })
+      .finally(() => {
+        this.setState({
+          Loading: false,
+        })
+      })
   }
   render() {
     return (
