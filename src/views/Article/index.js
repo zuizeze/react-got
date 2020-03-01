@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Card, Table, Button, Tooltip, Tag } from 'antd';
+import { Card, Table, Button, Tooltip, Tag, Modal, Typography } from 'antd';
 import moment from 'moment'
 import { getUser } from '../../api'
+import XLSX from 'xlsx'
+
+
 const ButtonGroup = Button.Group
-
-
-
 const titleDisplayMap = {
   id: 'id',
   name: '标题',
@@ -14,13 +14,15 @@ const titleDisplayMap = {
   createAt: '创建时间',
   amount: '阅读量'
 }
+
 export default class ArticleList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       dataSource: [],
       totalPage: 1,
-      Loading: true
+      Loading: true,
+      isShowArticleModal: false
     }
   }
   CreateColumn = (columnKeys) => {
@@ -73,7 +75,7 @@ export default class ArticleList extends Component {
         return (
           <ButtonGroup>
             <Button size="small" type="primary" onClick={this.Edit.bind(this, record.id)} >编辑</Button>
-            <Button size="small" type="danger" onClick={this.Edit.bind(this, record)} >删除</Button>
+            <Button size="small" type="danger" onClick={this.showDeleteArticleModal.bind(this, record)} >删除</Button>
           </ButtonGroup>
 
         )
@@ -82,8 +84,27 @@ export default class ArticleList extends Component {
     return columns
 
   }
+  //显示模态框
+  showDeleteArticleModal = (record) => {
+    this.setState({
+      deleteArticleTitle: record.name,
+      isShowArticleModal: true
+    })
+  }
+  //隐藏模态框
+  hideDeleteModal = () => {
+    this.setState({
+      deleteArticleTitle: "",
+      isShowArticleModal: false
+    })
+  }
+  //编辑按钮，路由跳转
   Edit = (id) => {
     this.props.history.push(`/admin/article/edit/${id}`)
+  }
+  //删除的模态框的确认按钮
+  deleteArticle = () => {
+
   }
   componentDidMount() {
     getUser().then(res => {
@@ -102,14 +123,35 @@ export default class ArticleList extends Component {
         })
       })
   }
+  ExportXls = () => {
+    const data = [Object.keys(this.state.dataSource[0])] // [['id', 'title', 'author', 'amount', 'createAt']]
+    for (let i = 0; i < this.state.dataSource.length; i++) {
+      // data.push(Object.values(this.state.dataSource[i]))
+      data.push([
+        this.state.dataSource[i].name,
+        this.state.dataSource[i].age,
+        this.state.dataSource[i].address,
+        this.state.dataSource[i].amount,
+        moment(this.state.dataSource[i].createAt).format('YYYY年MM月DD日 HH:mm:ss'),
+        this.state.dataSource[i].id,
+      ])
+    }
+    /* convert state to workbook */
+		const ws = XLSX.utils.aoa_to_sheet(data)
+		const wb = XLSX.utils.book_new()
+		XLSX.utils.book_append_sheet(wb, ws, "SheetJS")
+		/* generate XLSX file and send to client */
+		XLSX.writeFile(wb, `articles-${this.state.offset / this.state.limited + 1}-${moment().format('YYYYMMDDHHmmss')}.xlsx`)
+  }
   render() {
     return (
       <Card
         title="文章列表"
 
         extra={
-          <Button type='primary'>
-            导出</Button>
+          <Button type='primary' onClick={this.ExportXls}>
+            导出
+            </Button>
         }
       >
         <Table
@@ -119,6 +161,17 @@ export default class ArticleList extends Component {
           columns={this.state.columns}
           pagination={{ pageSize: 10 }}
         />
+        <Modal
+          title='此操作不可逆，请谨慎！！！'
+          visible={this.state.isShowArticleModal}
+          onCancel={this.hideDeleteModal}
+          confirmLoading={this.state.deleteArticleConfirmLoading}
+          onOk={this.deleteArticle}
+        >
+          <Typography>
+            确定要删除<span style={{ color: '#f00' }}>{this.state.deleteArticleTitle}</span>吗？
+          </Typography>
+        </Modal>
       </Card>
     );
   }
