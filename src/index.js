@@ -24,8 +24,6 @@ ReactDOM.render(
       }
       <Redirect to="/admin" from="/" exact />
       <Redirect to="/404" />
-
-
     </Switch>
 
   </Router>,

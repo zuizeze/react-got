@@ -4,7 +4,7 @@ export class DashBorder extends Component {
   render() {
     return (
       <div>
-        首页
+        仪表盘
       </div>
     );
   }
