@@ -111,6 +111,7 @@ export default class ArticleList extends Component {
       const data = res.data
       const columnKeys = Object.keys(data.list[0])
       const columns = this.CreateColumn(columnKeys)
+      console.log(columns,"dataSource",data.list);
       this.setState({
         dataSource: data.list,
         totalPage: data.total,
