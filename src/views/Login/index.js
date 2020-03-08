@@ -11,7 +11,7 @@ export class Login extends Component {
   }
   render() {
     return (
-      <div>
+      <div >
         登陆
       </div>
     );
