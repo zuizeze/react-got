@@ -95,7 +95,7 @@ export default class ArticleList extends Component {
   Edit = (id) => {
     this.props.history.push(`/admin/article/edit/${id}`)
   }
-  //删除的模态框的确认按钮
+  //挂载组件
   componentDidMount() {
     getUser().then(res => {
       const data = res.data
@@ -114,6 +114,8 @@ export default class ArticleList extends Component {
         })
       })
   }
+
+  //导出按钮
   ExportXls = () => {
     const data = [Object.keys(this.state.dataSource[0])] // [['id', 'title', 'author', 'amount', 'createAt']]
     for (let i = 0; i < this.state.dataSource.length; i++) {
@@ -134,16 +136,21 @@ export default class ArticleList extends Component {
     /* generate XLSX file and send to client */
     XLSX.writeFile(wb, `articles-${this.state.offset / this.state.limited + 1}-${moment().format('YYYYMMDDHHmmss')}.xlsx`)
   }
+
+  //模态框的取消和关闭按钮
   cancelDelete = () => {
     this.setState({
       articleDelete: false
     })
   }
+  //确认删除的按钮
   confirmDelete = () => {
     this.setState({
       articleDelete: true
     })
   }
+
+
   render = () => {
     return (
       <Card
@@ -169,7 +176,9 @@ export default class ArticleList extends Component {
           okText="别墨迹"
           onOk={this.confirmDelete}
           onCancel={this.cancelDelete}
-        >{this.state.modelMessage}</Modal>
+        >
+          {this.state.modelMessage}
+        </Modal>
       </Card>
     );
   }
