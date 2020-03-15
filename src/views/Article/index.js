@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
 import { Card, Table, Button, Tooltip, Tag, Modal, Typography } from 'antd';
+import React, { Component } from 'react';
 import moment from 'moment'
 import { getUser } from '../../api'
 import XLSX from 'xlsx'
@@ -21,8 +21,9 @@ export default class ArticleList extends Component {
     this.state = {
       dataSource: [],
       totalPage: 1,
+      modelMessage: 'djfojalkd',
       Loading: true,
-      isShowArticleModal: false
+      articleDelete: false
     }
   }
   CreateColumn = (columnKeys) => {
@@ -75,7 +76,7 @@ export default class ArticleList extends Component {
         return (
           <ButtonGroup>
             <Button size="small" type="primary" onClick={this.Edit.bind(this, record.id)} >编辑</Button>
-            <Button size="small" type="danger" onClick={this.showDeleteArticleModal.bind(this, record)} >删除</Button>
+            <Button size="small" type="danger" onClick={this.deleteArticle.bind(this, record.id)}>删除</Button>
           </ButtonGroup>
 
         )
@@ -84,18 +85,10 @@ export default class ArticleList extends Component {
     return columns
 
   }
-  //显示模态框
-  showDeleteArticleModal = (record) => {
+  //删除按钮
+  deleteArticle(id) {
     this.setState({
-      deleteArticleTitle: record.name,
-      isShowArticleModal: true
-    })
-  }
-  //隐藏模态框
-  hideDeleteModal = () => {
-    this.setState({
-      deleteArticleTitle: "",
-      isShowArticleModal: false
+      articleDelete: true
     })
   }
   //编辑按钮，路由跳转
@@ -103,15 +96,12 @@ export default class ArticleList extends Component {
     this.props.history.push(`/admin/article/edit/${id}`)
   }
   //删除的模态框的确认按钮
-  deleteArticle = () => {
-
-  }
   componentDidMount() {
     getUser().then(res => {
       const data = res.data
       const columnKeys = Object.keys(data.list[0])
       const columns = this.CreateColumn(columnKeys)
-      console.log(columns,"dataSource",data.list);
+      console.log(columns, "dataSource", data.list);
       this.setState({
         dataSource: data.list,
         totalPage: data.total,
@@ -138,13 +128,23 @@ export default class ArticleList extends Component {
       ])
     }
     /* convert state to workbook */
-		const ws = XLSX.utils.aoa_to_sheet(data)
-		const wb = XLSX.utils.book_new()
-		XLSX.utils.book_append_sheet(wb, ws, "SheetJS")
-		/* generate XLSX file and send to client */
-		XLSX.writeFile(wb, `articles-${this.state.offset / this.state.limited + 1}-${moment().format('YYYYMMDDHHmmss')}.xlsx`)
+    const ws = XLSX.utils.aoa_to_sheet(data)
+    const wb = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(wb, ws, "SheetJS")
+    /* generate XLSX file and send to client */
+    XLSX.writeFile(wb, `articles-${this.state.offset / this.state.limited + 1}-${moment().format('YYYYMMDDHHmmss')}.xlsx`)
   }
-  render() {
+  cancelDelete = () => {
+    this.setState({
+      articleDelete: false
+    })
+  }
+  confirmDelete = () => {
+    this.setState({
+      articleDelete: true
+    })
+  }
+  render = () => {
     return (
       <Card
         title="文章列表"
@@ -163,16 +163,13 @@ export default class ArticleList extends Component {
           pagination={{ pageSize: 10 }}
         />
         <Modal
-          title='此操作不可逆，请谨慎！！！'
-          visible={this.state.isShowArticleModal}
-          onCancel={this.hideDeleteModal}
-          confirmLoading={this.state.deleteArticleConfirmLoading}
-          onOk={this.deleteArticle}
-        >
-          <Typography>
-            确定要删除<span style={{ color: '#f00' }}>{this.state.deleteArticleTitle}</span>吗？
-          </Typography>
-        </Modal>
+          title="删除所选的数据，不可恢复，是否继续"
+          visible={this.state.articleDelete}
+          content={this.state.modelMessage}
+          okText="别墨迹"
+          onOk={this.confirmDelete}
+          onCancel={this.cancelDelete}
+        >{this.state.modelMessage}</Modal>
       </Card>
     );
   }
