@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-02-25 20:45:50
- * @LastEditTime: 2020-03-01 14:05:13
+ * @LastEditTime: 2020-03-18 21:04:56
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /linqiang/react-got/src/api/index.js
@@ -46,6 +46,12 @@ export const getUser = () => {
 
   })
 }
+//删除接口
+export const deleteUser = (id) => {
+  return service.post(`/api/v1/deleteuser/${id}`, {
+  })
+}
+
 
 export const login = (params) => {
   return service.post('/login/cellphone' + params + '', {

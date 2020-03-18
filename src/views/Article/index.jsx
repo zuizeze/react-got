@@ -1,11 +1,12 @@
-import { Card, Table, Button, Tooltip, Tag, Modal, Typography } from 'antd';
+import { Card, Table, Button, Tooltip, Tag, Modal, Typography, message } from 'antd';
 import React, { Component } from 'react';
 import moment from 'moment'
-import { getUser } from '../../api'
+import { getUser, deleteUser } from '../../api'
 import XLSX from 'xlsx'
 
 
 const ButtonGroup = Button.Group
+
 const titleDisplayMap = {
   id: 'id',
   name: '标题',
@@ -20,12 +21,17 @@ export default class ArticleList extends Component {
     super(props);
     this.state = {
       dataSource: [],
+      columns: [],
       totalPage: 1,
       modelMessage: 'djfojalkd',
       Loading: true,
-      articleDelete: false
+      articleDelete: false,
+      deleteArticleID: null,//要删除的那个id
+      confirmDeleteLoading: false
     }
   }
+
+  //创建表格的组件
   CreateColumn = (columnKeys) => {
     const columns = columnKeys.map(item => {
       if (item === "createAt") {
@@ -76,7 +82,7 @@ export default class ArticleList extends Component {
         return (
           <ButtonGroup>
             <Button size="small" type="primary" onClick={this.Edit.bind(this, record.id)} >编辑</Button>
-            <Button size="small" type="danger" onClick={this.deleteArticle.bind(this, record.id)}>删除</Button>
+            <Button size="small" type="danger" onClick={this.deleteArticle.bind(this, record)}>删除</Button>
           </ButtonGroup>
 
         )
@@ -85,17 +91,21 @@ export default class ArticleList extends Component {
     return columns
 
   }
+
   //删除按钮
-  deleteArticle(id) {
+  deleteArticle(record) {
     this.setState({
-      articleDelete: true
+      articleDelete: true,
+      deleteArticleID: record.id
     })
   }
+
   //编辑按钮，路由跳转
   Edit = (id) => {
     this.props.history.push(`/admin/article/edit/${id}`)
   }
-  //挂载组件
+
+  //挂载组件,请求表格组件
   componentDidMount() {
     getUser().then(res => {
       const data = res.data
@@ -111,6 +121,7 @@ export default class ArticleList extends Component {
       .finally(() => {
         this.setState({
           Loading: false,
+          articleDelete: false
         })
       })
   }
@@ -140,13 +151,23 @@ export default class ArticleList extends Component {
   //模态框的取消和关闭按钮
   cancelDelete = () => {
     this.setState({
-      articleDelete: false
+      articleDelete: false,
     })
   }
+
   //确认删除的按钮
   confirmDelete = () => {
     this.setState({
-      articleDelete: true
+      articleDelete: true,
+      confirmDeleteLoading: true
+    })
+    deleteUser(this.state.deleteArticleID).then(res => {
+      message.success(`成功删除${res.data.name}`)
+    }).finally(() => {
+      this.setState({
+        articleDelete: false,
+        confirmDeleteLoading: false
+      })
     })
   }
 
@@ -159,7 +180,7 @@ export default class ArticleList extends Component {
         extra={
           <Button type='primary' onClick={this.ExportXls}>
             导出
-            </Button>
+          </Button>
         }
       >
         <Table
@@ -174,7 +195,8 @@ export default class ArticleList extends Component {
           visible={this.state.articleDelete}
           content={this.state.modelMessage}
           okText="别墨迹"
-          onOk={this.confirmDelete}
+          confirmLoading={this.state.confirmDeleteLoading}
+          onOk={this.confirmDelete.bind(IDBFactory)}
           onCancel={this.cancelDelete}
         >
           {this.state.modelMessage}
