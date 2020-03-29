@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-02-24 21:12:22
- * @LastEditTime: 2020-03-04 20:20:52
+ * @LastEditTime: 2020-03-28 12:19:16
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /linqiang/react-got/src/routes/index.js
@@ -12,7 +12,8 @@ import {
   DashBorder,
   Setting,
   ArticleEdit,
-  ArticleList
+  ArticleList,
+  ReduxDemo
 } from "../views"
 
 export const mainRouter = [
@@ -43,6 +44,13 @@ export const adminRoutes = [
     isNav: true,
     icon:'setting',
     title: "设置"
+  },
+  {
+    pathname: "/admin/redux",
+    component: ReduxDemo,
+    isNav: true,
+    icon:'zhihu-utlined',
+    title: "redux"
   },
 
   {

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-02-23 11:24:09
- * @LastEditTime: 2020-03-01 13:36:26
+ * @LastEditTime: 2020-03-21 19:57:08
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /linqiang/react-got/src/App.js
@@ -12,7 +12,6 @@ import { Route, Switch, Redirect } from 'react-router-dom'
 // import { getUser } from './api'
 import { adminRoutes } from './routes'
 import { Frame } from './components'
-
 const menus = adminRoutes.filter(route => route.isNav === true)
 export class App extends Component {
   render() {

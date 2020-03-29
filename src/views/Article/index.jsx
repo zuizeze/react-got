@@ -51,15 +51,6 @@ export default class ArticleList extends Component {
           key: item,
           render: (text, record) => {
             const { amount } = record
-            // 这里是根据一个数字的大小做一个条件渲染
-            // 同理，可以做职位级别不同的颜色
-            // 总经理：'001'，经理：'002'，主管: '003' 
-            // const titleMap = {
-            //   '001': 'red',
-            //   '002': '#09f',
-            //   '003': 'green'
-            // }
-            // return <Tag color={titleMap[titleKey]}>{record.title}</Tag>
             return (
               <Tooltip title={amount > 230 ? '超过230' : '没超过230'}>
                 <Tag color={amount > 230 ? 'red' : 'green'}>{record.amount}</Tag>

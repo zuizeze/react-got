@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-02-23 10:14:38
- * @LastEditTime: 2020-02-29 21:19:09
+ * @LastEditTime: 2020-03-28 12:16:17
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /linqiang/react-got/src/views/index.js
@@ -37,7 +37,10 @@ const Setting = Loadable({
   loader: () => import('./Setting'),
   loading: Loading
 })
-
+const ReduxDemo = Loadable({
+  loader: () => import('./Redux'),
+  loading: Loading
+})
 const ArticleList = Loadable({
   loader: () => import('./Article'),
   loading: Loading
@@ -47,11 +50,14 @@ const ArticleEdit = Loadable({
   loader: () => import('./Article/Edit'),
   loading: Loading
 })
+
+
 export {
   Login,
   NotFound,
   DashBorder,
   Setting,
   ArticleEdit,
-  ArticleList
+  ArticleList,
+  ReduxDemo
 }
