@@ -1,8 +1,3 @@
-// import { combineReducers } from 'redux'
-
-
-// export default combineReducers({
-// })
 
 const defaultState = {
   "inputValue": "write something",
@@ -27,16 +22,33 @@ const defaultState = {
 export default (state = defaultState, action) => {
   switch (action.type) {
     case "changeInputValue":
-      // const newTodoItem = {
-      //   "id":state.length ++
-      //   "value":""
-      // }
       return {
         ...state,
-        inputValue:action.value
+        inputValue: action.value
+      }
+
+    //创建todoList
+    case "addTodo":
+      const tmp_list = state.list
+      const newTodoItem = {
+        "id": tmp_list.length,
+        "text": action.value,
+        "completed": false
+      }
+      tmp_list.push(newTodoItem)
+      return {
+        ...state,
+        list: tmp_list
+      }
+    //删除一条todoList
+    case "deleteTodo":
+      const deleteTodoList = state.list
+      deleteTodoList.splice(action.index, 1)
+      return {
+        ...state,
+        list: deleteTodoList
       }
     default:
       return state
   }
-
 }
