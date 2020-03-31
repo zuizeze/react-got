@@ -6,9 +6,19 @@
  * @Description: In User Settings Edit
  * @FilePath: /react-got/src/store/index.js
  */
-import {createStore} from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import thunk from 'react-thunk'
+
+import {useState} from 'react'
 import reducers from '../reducers';
-const store = createStore(reducers)
+const store = createStore(
+  reducers,
+  applyMiddleware(thunk)
+)
+
+
+
+
 
 
 export default store
