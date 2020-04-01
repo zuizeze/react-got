@@ -21,8 +21,10 @@ const DashBorder = Loadable({
   loader: () => import('./DashBorder'),
   loading: Loading
 })
-
-
+const Test = Loadable({
+  loader: () => import('./Test'),
+  loading: Loading
+})
 const NotFound = Loadable({
   loader: () => import('./NotFound'),
   loading: Loading
@@ -59,5 +61,6 @@ export {
   Setting,
   ArticleEdit,
   ArticleList,
-  ReduxDemo
+  ReduxDemo,
+  Test
 }

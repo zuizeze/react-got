@@ -13,13 +13,19 @@ import {
   Setting,
   ArticleEdit,
   ArticleList,
-  ReduxDemo
+  ReduxDemo,
+  Test,
+
 } from "../views"
 
 export const mainRouter = [
   {
     pathname: "/login",
     component: Login
+  },
+  {
+    pathname: "/test",
+    component: Test
   },
   {
     pathname: "/404",
